@@ -146,4 +146,3 @@ Logs are stored in `outputs/rag_assistant.log` and include:
 
 ## License
 
-[Specify your license here]
