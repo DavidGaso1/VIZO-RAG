@@ -1,0 +1,155 @@
+# Sample conversation questions for ViZO Products & Services (yzN0OCQT7hUS)
+# These simulate natural conversation flow for customer support and product education
+questions:
+  # Basic understanding and overview
+  - "what is ViZO"
+  - "what services does ViZO offer"
+  - "how is ViZO different from regular banking apps"
+  - "is ViZO a licensed financial institution"
+  - "can you explain the main features of ViZO"
+  - "what makes ViZO unique in Nigeria"
+  - "how do I access ViZO services"
+
+  # Account setup and management
+  - "how do I create a ViZO account"
+  - "what documents do I need to open an account"
+  - "tell me about the different account verification levels"
+  - "what are the benefits of upgrading my verification level"
+  - "how long does account verification take"
+  - "can I have multiple ViZO accounts"
+  - "what security features does ViZO have"
+
+  # Smart Account focus
+  - "tell me about the ViZO Smart Account"
+  - "what can I do with my Smart Account"
+  - "are there any monthly fees for the Smart Account"
+  - "how do I activate my Smart Account"
+  - "what are the transaction limits on Smart Account"
+  - "can I receive salary payments into my Smart Account"
+  - "how do I send money to other ViZO users"
+
+  # Gold Investment deep dive
+  - "how does ViZO gold investment work"
+  - "what is the minimum amount of gold I can buy"
+  - "how do I open a gold account"
+  - "can you explain the step-by-step process to buy gold"
+  - "what is LBMA pricing"
+  - "do I get a discount on gold purchases"
+  - "is my gold investment secure"
+
+  # Gold selling and collection
+  - "when can I sell my gold"
+  - "how long does it take to get money after selling gold"
+  - "can I collect physical gold from ViZO"
+  - "what is the minimum quantity for physical gold collection"
+  - "how do I request physical gold collection"
+  - "are there storage fees for my gold"
+  - "can I cancel a gold transaction"
+
+  # Cryptocurrency services
+  - "what cryptocurrencies does ViZO support"
+  - "how do I buy Bitcoin on ViZO"
+  - "how secure is the crypto wallet"
+  - "what are the fees for crypto trading"
+  - "can I send crypto to external wallets"
+  - "how do I sell my cryptocurrency"
+  - "what is a hybrid HD wallet"
+
+  # Bill payment services
+  - "what bills can I pay on ViZO"
+  - "how do I buy airtime on ViZO"
+  - "can I pay my electricity bill through ViZO"
+  - "do you offer discounts on bill payments"
+  - "can I schedule automatic bill payments"
+  - "which cable TV providers are supported"
+  - "how do I pay for data bundles"
+
+  # Money transfer exploration
+  - "how do I transfer money to bank accounts"
+  - "are transfers to other ViZO users free"
+  - "what are the transfer fees"
+  - "how long do bank transfers take"
+  - "can I do bulk transfers for payroll"
+  - "what are the daily transfer limits"
+  - "how do I save beneficiaries"
+
+  # Fees and charges
+  - "what fees does ViZO charge"
+  - "are there any hidden charges"
+  - "is there a monthly maintenance fee"
+  - "what are the cryptocurrency trading fees"
+  - "how much does it cost to transfer to banks"
+  - "are there charges for gold transactions"
+  - "do I need a minimum balance"
+
+  # Security and safety
+  - "how secure is ViZO"
+  - "what happens if my phone is stolen"
+  - "how do I enable two-factor authentication"
+  - "what encryption does ViZO use"
+  - "how do I report suspicious activity"
+  - "can I block my account remotely"
+  - "what should I do if I forget my PIN"
+
+  # Technical implementation details
+  - "what platforms is ViZO available on"
+  - "can I use ViZO on multiple devices"
+  - "how do I update the ViZO app"
+  - "what is the minimum Android version required"
+  - "can I access ViZO from a web browser"
+  - "how do I sync my account across devices"
+
+  # Comparisons and alternatives
+  - "how does ViZO compare to traditional banks"
+  - "what makes ViZO better than other fintech apps"
+  - "why should I invest in gold through ViZO"
+  - "how is ViZO different from other crypto exchanges"
+  - "what are the advantages of using ViZO for bill payments"
+
+  # Gift cards and additional services
+  - "what gift cards are available on ViZO"
+  - "how do I purchase gift cards"
+  - "can I gift cryptocurrency to someone"
+  - "what merchants accept ViZO payments"
+  - "are there any loyalty or reward programs"
+
+  # Business solutions
+  - "does ViZO offer business accounts"
+  - "can I use ViZO for my company payroll"
+  - "what are the merchant services available"
+  - "how do I integrate ViZO API for my business"
+  - "can I generate payment links for my customers"
+  - "what business analytics does ViZO provide"
+
+  # Troubleshooting and support
+  - "how do I contact ViZO customer support"
+  - "what are your customer support hours"
+  - "my transaction failed, what should I do"
+  - "how do I dispute a transaction"
+  - "where can I find help documentation"
+  - "do you have video tutorials"
+  - "can I get support on WhatsApp"
+
+  # Cross-application questions
+  - "can I use my gold investment to pay bills"
+  - "can I convert my crypto directly to gold"
+  - "which ViZO service is best for savings"
+  - "can I use multiple services simultaneously"
+  - "how do the different services work together"
+
+  # Compliance and regulations
+  - "is ViZO regulated by CBN"
+  - "what regulations does ViZO comply with"
+  - "how does ViZO handle my personal data"
+  - "what KYC documents are required"
+  - "is ViZO compliant with anti-money laundering laws"
+  - "who can open a ViZO account"
+
+  # Future and getting started
+  - "what new features are coming to ViZO"
+  - "can I use ViZO outside Nigeria"
+  - "how do I fund my ViZO wallet for the first time"
+  - "what is the best way to start using ViZO"
+  - "are there any promotions for new users"
+  - "how do I invite friends to ViZO"
+  - "what should I try first as a new user"
