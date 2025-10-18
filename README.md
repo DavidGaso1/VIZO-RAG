@@ -38,7 +38,7 @@ A Retrieval-Augmented Generation (RAG) system built with LangChain and ChromaDB 
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
+git clone https://github.com/DavidGaso1/VIZO-RAG
 cd vizo-rag
 ```
 
@@ -115,13 +115,6 @@ Main packages:
 - pyyaml (6.0.2+)
 
 For a complete list, see `code/requirements.txt`
-
-## Development
-
-### Running Tests
-```bash
-python -m pytest code/tests/
-```
 
 ### Adding New Features
 1. Update configuration in `config.yaml`
