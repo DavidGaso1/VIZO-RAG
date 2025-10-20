@@ -10,7 +10,7 @@ from utils import load_all_publications
 
 def initialize_db(
     persist_directory: str = VECTOR_DB_DIR,
-    collection_name: str = "vizo_products_manual",
+    collection_name: str = "vizo_knowledge_base",
     delete_existing: bool = False,
 ) -> chromadb.Collection:
     """
