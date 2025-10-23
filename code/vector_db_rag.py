@@ -1,10 +1,10 @@
 import os
 import logging
-from dotenv import load_dotenv  # type: ignore
+from dotenv import load_dotenv
 from utils import load_yaml_config
 from prompt_builder import build_prompt_from_config
-from langchain_google_genai import ChatGoogleGenerativeAI # pyright: ignore[reportMissingImports]
-from langchain_core.messages import HumanMessage, SystemMessage, AIMessage # pyright: ignore[reportMissingImports]
+from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_core.messages import HumanMessage, SystemMessage, AIMessage
 from paths import APP_CONFIG_FPATH, PROMPT_CONFIG_FPATH, OUTPUTS_DIR
 from vector_db_ingest import get_db_collection, embed_documents
 
@@ -114,7 +114,7 @@ def respond_to_query(
     prompt_config: dict,
     query: str,
     llm: ChatGoogleGenerativeAI,
-    conversation_history: list = None, # type: ignore
+    conversation_history: list = None,
     n_results: int = 5,
     threshold: float = 0.3,
     use_memory: bool = True,
@@ -184,7 +184,7 @@ def print_conversation_summary(conversation_history: list):
         return
     
     print("\n" + "=" * 80)
-    print(f"CONVERSATION SUMMARY ({len(conversation_history)} Q&A pairs)")
+    print(f" CONVERSATION SUMMARY ({len(conversation_history)} Q&A pairs)")
     print("=" * 80)
     for i, (question, answer) in enumerate(conversation_history, 1):
         print(f"\nQ{i}: {question}")
@@ -208,11 +208,11 @@ if __name__ == "__main__":
     
     # Conversation memory settings
     use_memory = True
-    max_history_pairs = 10  # Keep last 10 Q&A pairs
+    max_history_pairs = 3  # Keep last 3 Q&A pairs
     conversation_history = []
 
     print("\n" + "=" * 80)
-    print(" VIZO RAG ASSISTANT ")
+    print(" VIZO RAG ASSISTANT WITH CONVERSATION MEMORY")
     print("=" * 80)
     print("\nCommands:")
     print("  - Type your question to get an answer")
