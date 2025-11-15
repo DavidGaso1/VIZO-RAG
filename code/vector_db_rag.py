@@ -15,7 +15,7 @@ def setup_logging():
     logger.setLevel(logging.INFO)
 
     # File handler
-    file_handler = logging.FileHandler(os.path.join(OUTPUTS_DIR, "rag_assistant_with_memory.log"))
+    file_handler = logging.FileHandler(os.path.join(OUTPUTS_DIR, "rag_assistant_improved.log"))
     file_handler.setLevel(logging.INFO)
 
     # Console handler
@@ -37,16 +37,16 @@ collection = get_db_collection(collection_name="Vizo_Product_Manual")
 
 def retrieve_relevant_documents(
     query: str,
-    n_results: int = 5,
-    threshold: float = 0.3,
+    n_results: int = 15,  # Increased from 5
+    threshold: float = 0.5,  # Relaxed from 0.3 (lower distance = more similar)
 ) -> list[str]:
     """
     Query the ChromaDB database with a string query.
 
     Args:
         query (str): The search query string
-        n_results (int): Number of results to return (default: 5)
-        threshold (float): Threshold for the cosine similarity score (default: 0.3)
+        n_results (int): Number of results to return (default: 15)
+        threshold (float): Threshold for the cosine distance score (default: 0.5)
 
     Returns:
         list: List of relevant document strings
@@ -81,7 +81,66 @@ def retrieve_relevant_documents(
             relevant_results["documents"].append(results["documents"][0][i])
             relevant_results["distances"].append(results["distances"][0][i])
 
+    logging.info(f"Found {len(relevant_results['documents'])} relevant documents after filtering")
+    
+    # Log distances to help tune threshold
+    if relevant_results["distances"]:
+        logging.info(f"Distance range: {min(relevant_results['distances']):.3f} to {max(relevant_results['distances']):.3f}")
+
     return relevant_results["documents"]
+
+
+def retrieve_with_query_expansion(
+    query: str,
+    n_results: int = 15,
+    threshold: float = 0.5,
+) -> list[str]:
+    """
+    Retrieve documents using query expansion for broad questions.
+    
+    For questions like "all products", we search multiple times with different
+    query formulations to ensure comprehensive coverage.
+    """
+    # Check if this is a broad "list all" type query
+    # Remove punctuation and normalize query
+    normalized_query = query.lower().replace('?', '').replace('!', '').replace('.', '').strip()
+    
+    broad_keywords = ["all products", "all vizo products", "list products", "what products", 
+                      "available products", "all services", "list services", "what services", 
+                      "everything", "complete list", "tell me about all", "what are all",
+                      "show me all", "give me all"]
+    
+    is_broad_query = any(keyword in normalized_query for keyword in broad_keywords)
+    
+    if is_broad_query:
+        logging.info("Detected broad query - using query expansion")
+        
+        # Generate multiple search queries to cover all products
+        expanded_queries = [
+            query,  # Original query
+            "ViZO products and services overview",
+            "digital wallet cryptocurrency gold investment",
+            "bill payment airtime data utility",
+            "money transfer bank smart account",
+            "gift cards services features",
+        ]
+        
+        all_documents = []
+        seen_docs = set()
+        
+        for expanded_query in expanded_queries:
+            docs = retrieve_relevant_documents(expanded_query, n_results=10, threshold=threshold)
+            for doc in docs:
+                # Avoid duplicates
+                if doc not in seen_docs:
+                    all_documents.append(doc)
+                    seen_docs.add(doc)
+        
+        logging.info(f"Retrieved {len(all_documents)} unique documents using query expansion")
+        return all_documents
+    else:
+        # For specific queries, use standard retrieval
+        return retrieve_relevant_documents(query, n_results=n_results, threshold=threshold)
 
 
 def format_conversation_history(conversation_history: list, max_pairs: int = 3) -> str:
@@ -115,9 +174,10 @@ def respond_to_query(
     query: str,
     llm: ChatGoogleGenerativeAI,
     conversation_history: list = None,
-    n_results: int = 5,
-    threshold: float = 0.3,
+    n_results: int = 15,  # Increased default
+    threshold: float = 0.5,  # Relaxed default
     use_memory: bool = True,
+    use_query_expansion: bool = True,  # New parameter
 ) -> str:
     """
     Respond to a query using the ChromaDB database with optional conversation memory.
@@ -130,6 +190,7 @@ def respond_to_query(
         n_results: Number of documents to retrieve
         threshold: Similarity threshold for retrieval
         use_memory: Whether to include conversation history
+        use_query_expansion: Whether to use query expansion for broad queries
     
     Returns:
         Response string
@@ -137,15 +198,21 @@ def respond_to_query(
     if conversation_history is None:
         conversation_history = []
 
-    # Retrieve relevant documents
-    relevant_documents = retrieve_relevant_documents(
-        query, n_results=n_results, threshold=threshold
-    )
+    # Retrieve relevant documents with optional query expansion
+    if use_query_expansion:
+        relevant_documents = retrieve_with_query_expansion(
+            query, n_results=n_results, threshold=threshold
+        )
+    else:
+        relevant_documents = retrieve_relevant_documents(
+            query, n_results=n_results, threshold=threshold
+        )
 
     logging.info("-" * 100)
-    logging.info("Relevant documents: \n")
-    for doc in relevant_documents:
-        logging.info(doc)
+    logging.info(f"Retrieved {len(relevant_documents)} relevant documents\n")
+    for i, doc in enumerate(relevant_documents, 1):
+        logging.info(f"Document {i}:")
+        logging.info(doc[:200] + "..." if len(doc) > 200 else doc)
         logging.info("-" * 100)
     logging.info("")
 
@@ -169,7 +236,7 @@ def respond_to_query(
         prompt_config, input_data=input_data
     )
 
-    logging.info(f"RAG assistant prompt: {rag_assistant_prompt}")
+    logging.info(f"RAG assistant prompt length: {len(rag_assistant_prompt)} characters")
     logging.info("")
 
     # Get response from LLM
@@ -208,20 +275,26 @@ if __name__ == "__main__":
     
     # Conversation memory settings
     use_memory = True
-    max_history_pairs = 3  # Keep last 3 Q&A pairs
+    use_query_expansion = True  # Enable query expansion
+    max_history_pairs = 3
     conversation_history = []
 
     print("\n" + "=" * 80)
-    print(" VIZO RAG ASSISTANT WITH CONVERSATION MEMORY")
+    print(" VIZO RAG ASSISTANT WITH IMPROVED RETRIEVAL")
     print("=" * 80)
+    print("\nFeatures:")
+    print("  ✓ Query expansion for comprehensive answers")
+    print("  ✓ Increased retrieval capacity (up to 15+ documents)")
+    print("  ✓ Conversation memory")
     print("\nCommands:")
     print("  - Type your question to get an answer")
     print("  - 'config' - Change retrieval parameters")
     print("  - 'memory on/off' - Toggle conversation memory")
+    print("  - 'expansion on/off' - Toggle query expansion")
     print("  - 'history' - View conversation history")
     print("  - 'clear' - Clear conversation history")
     print("  - 'exit' - Quit the application")
-    print(f"\n Memory: {'ON' if use_memory else 'OFF'} | Keeping last {max_history_pairs} Q&A pairs")
+    print(f"\n Memory: {'ON' if use_memory else 'OFF'} | Query Expansion: {'ON' if use_query_expansion else 'OFF'}")
     print("=" * 80 + "\n")
 
     exit_app = False
@@ -259,6 +332,16 @@ if __name__ == "__main__":
             print(" Conversation memory turned OFF\n")
             continue
         
+        elif query.lower() == "expansion on":
+            use_query_expansion = True
+            print(" Query expansion turned ON\n")
+            continue
+        
+        elif query.lower() == "expansion off":
+            use_query_expansion = False
+            print(" Query expansion turned OFF\n")
+            continue
+        
         elif query.lower() == "history":
             print_conversation_summary(conversation_history)
             continue
@@ -276,6 +359,7 @@ if __name__ == "__main__":
                 llm=llm,
                 conversation_history=conversation_history if use_memory else [],
                 use_memory=use_memory,
+                use_query_expansion=use_query_expansion,
                 **vectordb_params,
             )
             
@@ -296,7 +380,7 @@ if __name__ == "__main__":
             print("=" * 80)
             print(f"\n{response}\n")
             print("=" * 80)
-            print(f" History: {len(conversation_history)}/{max_history_pairs} Q&A pairs | Memory: {'ON' if use_memory else 'OFF'}")
+            print(f" History: {len(conversation_history)}/{max_history_pairs} Q&A pairs | Memory: {'ON' if use_memory else 'OFF'} | Expansion: {'ON' if use_query_expansion else 'OFF'}")
             print("=" * 80 + "\n")
             
         except Exception as e:

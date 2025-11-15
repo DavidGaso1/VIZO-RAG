@@ -43,3 +43,7 @@ logs/
 memory_persistence.py/
 memory_strategies.py/
 system_prompts_examples/
+vector_db_rag_outdated.py
+gitignore
+.gitignore
+__init__.py
