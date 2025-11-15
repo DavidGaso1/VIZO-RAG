@@ -129,7 +129,7 @@ def retrieve_with_query_expansion(
         seen_docs = set()
         
         for expanded_query in expanded_queries:
-            docs = retrieve_relevant_documents(expanded_query, n_results=10, threshold=threshold)
+            docs = retrieve_relevant_documents(expanded_query, n_results=15, threshold=threshold)
             for doc in docs:
                 # Avoid duplicates
                 if doc not in seen_docs:
