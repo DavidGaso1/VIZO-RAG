@@ -1,16 +1,3 @@
-"""
-VIZO RAG Assistant Flask Server with Auto-Ingestion
-
-Required packages:
-    pip install flask flask-cors python-dotenv
-    pip install PyPDF2 docx2txt  # For PDF and DOCX support
-    
-Auto-ingestion setup:
-    1. Create a folder: data/documents/
-    2. Place your documents there (.txt, .pdf, .docx, .md, .json)
-    3. The system will automatically detect and ingest them before each query
-"""
-
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from datetime import datetime
