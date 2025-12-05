@@ -37,8 +37,8 @@ collection = get_db_collection(collection_name="Vizo_Product_Manual")
 
 def retrieve_relevant_documents(
     query: str,
-    n_results: int = 15,  # Increased from 5
-    threshold: float = 0.5,  # Relaxed from 0.3 (lower distance = more similar)
+    n_results: int = 15, 
+    threshold: float = 0.5,  
 ) -> list[str]:
     """
     Query the ChromaDB database with a string query.
